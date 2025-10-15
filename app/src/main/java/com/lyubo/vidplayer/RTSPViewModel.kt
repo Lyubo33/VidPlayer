@@ -21,6 +21,11 @@ class RTSPViewModel
 ): ViewModel(), MediaPlayer.EventListener {
     private val VIDEO_URI = "rtsp://dev.gradotech.eu:8554/stream"
     private val _isPlaying = mutableStateOf(false)
+    private val _isBuffering = mutableStateOf(false)
+
+    val isBuffering: () -> Boolean = { _isBuffering.value }
+
+
 
     private fun setKeepScreenOn(keepScreenOn: Boolean, window: Window) {
         if(keepScreenOn){
@@ -36,13 +41,23 @@ class RTSPViewModel
     }
     override fun onEvent(event: MediaPlayer.Event){
         when(event.type){
+            MediaPlayer.Event.Buffering ->{
+                _isBuffering.value = event.buffering < 100
+            }
             MediaPlayer.Event.EndReached -> {
+                _isBuffering.value = false
                 player.stop()
                 player.play()
             }
-            MediaPlayer.Event.Playing -> _isPlaying.value = true
-            MediaPlayer.Event.Paused -> _isPlaying.value = false
-            MediaPlayer.Event.Stopped -> _isPlaying.value = false
+            MediaPlayer.Event.Playing -> {
+                _isBuffering.value = false
+                _isPlaying.value = true
+            }
+            MediaPlayer.Event.Paused, MediaPlayer.Event.Stopped -> {
+                _isBuffering.value = false
+                _isPlaying.value = false
+            }
+            else -> _isBuffering.value = false
 
         }
 
@@ -81,7 +96,7 @@ class RTSPViewModel
     override fun onCleared() {
         super.onCleared()
         player.setEventListener(null)
-        player.stop()
+        stop()
         _isPlaying.value = false
         player.detachViews()
         player.media?.release()
@@ -89,3 +104,4 @@ class RTSPViewModel
     }
 
 }
+

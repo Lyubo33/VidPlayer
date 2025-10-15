@@ -28,6 +28,7 @@ import androidx.compose.material.icons.rounded.Fullscreen
 import androidx.compose.material.icons.rounded.FullscreenExit
 import androidx.compose.material.icons.rounded.Pause
 import androidx.compose.material.icons.rounded.PlayArrow
+import androidx.compose.material3.CircularProgressIndicator
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -51,6 +52,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -66,12 +68,15 @@ import org.videolan.libvlc.util.VLCVideoLayout
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
             VidPlayerTheme {
+                val viewModel = hiltViewModel<RTSPViewModel>()
                 var areControlsVisible by rememberSaveable { mutableStateOf(true) }
                 val activity = LocalActivity.current as ComponentActivity
                 var isFullscreen by rememberSaveable {mutableStateOf(false)}
+                val isBuffering by rememberSaveable { mutableStateOf(viewModel.isBuffering()) }
                 LaunchedEffect(isFullscreen) {
                     val window = activity.window
                     val insetsController = WindowCompat.getInsetsController(window, window.decorView)
@@ -104,7 +109,7 @@ class MainActivity : ComponentActivity() {
                         .aspectRatio(16 / 9f)
 
                 }
-                val viewModel = hiltViewModel<RTSPViewModel>()
+
                 Column(modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background),
@@ -123,12 +128,17 @@ class MainActivity : ComponentActivity() {
                         }
                     ){
                         VideoPlayer(viewModel, activity)
+                        if (isBuffering) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.align(Alignment.Center),
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
                         this@Column.AnimatedVisibility(
                             visible = areControlsVisible,
                             modifier = Modifier.align(Alignment.BottomCenter)
                         ) {
                             ControlsRow(
-                                modifier = Modifier.align(Alignment.BottomCenter),
                                 viewModel = viewModel,
                                 isFullscreen = isFullscreen,
                                 onFullScreenClick = {
@@ -193,13 +203,12 @@ fun VideoPlayer(viewModel: RTSPViewModel, activity: ComponentActivity){
 
 @Composable
 fun ControlsRow(
-    modifier: Modifier,
     viewModel: RTSPViewModel,
     isFullscreen: Boolean,
     onFullScreenClick: () -> Unit,
     activity: ComponentActivity
 ) {
-    Row(modifier = modifier
+    Row(modifier = Modifier
         .fillMaxWidth()
         .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.5f))
         .padding(horizontal = 8.dp),
