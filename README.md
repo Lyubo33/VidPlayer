@@ -1,5 +1,7 @@
 <div align "center">
-  <img src="./readme-files/vidplyr-logo-transparent.png" alt="Vidplyr logo" width="150"/>
+  <img src="./readme-files/vidplyr-logo-transparent.png" alt="Vidplyr logo" width="150" height="150"/>
+
+[![Version](https://badgen.net/github/release/Lyubo33/VidPlayer)](https://github.com/Lyubo33/VidPlayer/releases/tag/v0.0.2)
 </div>
 
 ### An Android RTSP Player that plays video from url
