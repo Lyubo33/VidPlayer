@@ -1,7 +1,7 @@
-<p align "center">
+<div align "center">
   <img src="./readme-files/vidplyr-logo-transparent.png" alt="Vidplyr logo" width="150"/>
-  <br/>
-</p>
+</div>
+
 ### An Android RTSP Player that plays video from url
 
 ## Core technologies
