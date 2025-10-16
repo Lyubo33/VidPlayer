@@ -8,6 +8,13 @@ import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -50,6 +57,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 
 import androidx.compose.ui.input.pointer.pointerInput
+
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -112,7 +120,8 @@ class MainActivity : ComponentActivity() {
 
                 Column(modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background),
+                    .background(MaterialTheme.colorScheme.background)
+                    .animateContentSize(),
                         verticalArrangement = Arrangement.spacedBy(
                             space = 8.dp,
                             alignment = Alignment.Top
@@ -136,7 +145,9 @@ class MainActivity : ComponentActivity() {
                         }
                         this@Column.AnimatedVisibility(
                             visible = areControlsVisible,
-                            modifier = Modifier.align(Alignment.BottomCenter)
+                            modifier = Modifier.align(Alignment.BottomCenter),
+                            enter = slideInVertically { it } + fadeIn(),
+                            exit = slideOutVertically { it } + fadeOut()
                         ) {
                             ControlsRow(
                                 viewModel = viewModel,
@@ -228,7 +239,9 @@ fun ControlsRow(
 
         AnimatedVisibility(
             visible = showVolumeSlider,
-            modifier = Modifier.weight(1f) // Use weight to fill space
+            modifier = Modifier.weight(1f),
+            enter = expandHorizontally() + fadeIn(),
+            exit = shrinkHorizontally() + fadeOut()
         ) {
             Slider(
                 modifier = Modifier.padding(horizontal = 8.dp),
@@ -262,6 +275,7 @@ fun ControlsRow(
         }
     }
 }
+
 
 
 
