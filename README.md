@@ -1,7 +1,6 @@
 <p align "center">
   <img src="./readme-files/vidplyr-logo-transparent.png" alt="Vidplyr logo" width="150"/>
   <br/>
-# VIDPLYR
 </p>
 ### An Android RTSP Player that plays video from url
 
