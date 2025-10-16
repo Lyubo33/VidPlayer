@@ -1,10 +1,10 @@
-<div align "center">
+<div align="center">
   <img src="./readme-files/vidplyr-logo-transparent.png" alt="Vidplyr logo" width="200" height="200"/>
 
 [![Version](https://badgen.net/github/release/Lyubo33/VidPlayer)](https://github.com/Lyubo33/VidPlayer/releases/tag/0.0.2)
 </div>
 
-### An Android RTSP Player that plays video from url
+### An Android RTSP Player that plays video from a hardcoded url
 
 ## Core technologies
 #### 1. Vlclib for audio and video playback
