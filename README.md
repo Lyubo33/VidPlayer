@@ -5,7 +5,9 @@
 </div>
 
 <div align="center">
+
 ### An Android RTSP Player that plays video from a hardcoded url
+
 </div>
 
 ## Core technologies
