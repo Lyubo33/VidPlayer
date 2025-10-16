@@ -4,7 +4,9 @@
 [![Version](https://badgen.net/github/release/Lyubo33/VidPlayer)](https://github.com/Lyubo33/VidPlayer/releases/tag/0.0.2)
 </div>
 
+<div align="center">
 ### An Android RTSP Player that plays video from a hardcoded url
+</div>
 
 ## Core technologies
 #### 1. Vlclib for audio and video playback
