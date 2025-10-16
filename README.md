@@ -13,6 +13,6 @@
 ## Additionally
 ##### Themed app icon and usage of Material 3's dynamic theme colors
 ## Usage
-##### Just go to [Releases](https://github.com/Lyubo33/VidPlayer/Releases/Latest) and download the latest apk
+##### Just go to [Releases](https://github.com/Lyubo33/VidPlayer/releases) and download the latest apk
 
 
